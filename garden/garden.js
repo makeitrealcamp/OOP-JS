@@ -4,6 +4,50 @@
 // TU CODIGO: Crea un Objeto literal "garden", y funcion constuctora y prototipos para Flower aca.
 //------------------------------------------------------------------------------------------------------------------
 
+var garden = {
+  name : 'Kula Botanical Garden',
+  location : 'Makawao',
+  plant: function(flowers){
+    // for (var flower in flowers) {
+    //   console.log(flowers[flower])
+    // }
+    this.flowers = flowers;
+  },
+  selectByColor: function(colorToFind){
+    var resArr = [];
+    for (var flower in this.flowers) {
+      if (colorToFind === this.flowers[flower].color)
+      {
+        resArr.push(this.flowers[flower].color)
+      }
+    }
+    return resArr;
+  },
+  selectByName: function(nameToFind){
+    var resArr = [];
+    for (var flower in this.flowers) {
+      if (nameToFind === this.flowers[flower].name)
+      {
+        resArr.push(this.flowers[flower].name)
+      }
+    }
+    return resArr;
+  }
+
+}
+
+
+
+function Flower(name,color){
+  this.name = name;
+  this.color = color;
+}
+
+Flower.prototype.identify = function(){
+  identify = 'I am an ' + this.name + ' and I am ' + this.color + "."
+  return identify;  
+}
+
 
 //------------------------------------------------------------------------------------------------------------------
 // PRUEBAS: **NO** Cambies nada debajo de esta linea. Tu trabajo es implementar el codigo arriba para hacer que estas pruebas pasen.
@@ -15,6 +59,7 @@ function assert(test, message) {
   }
   return true;
 }
+
 
 var flowers = [
   new Flower("Aster", "red"),
