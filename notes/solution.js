@@ -1,11 +1,17 @@
 // assume this data came from the database
+function NotesManager(){
+
+}
+
+var myNotes = new NotesManager();
+
 var notes = [
 	"Chuck Norris counted to infinity - twice.",
 	"Chuck Norris is the reason why Waldo is hiding.",
 	"Death once had a near-Chuck Norris experience"
 ];
 
-function addNote(note) {
+NotesManager.prototype.addNote = function(note) {
 	$("#notes").prepend(
 		$("<a href='#'></a>")
 		.addClass("note")
@@ -13,7 +19,7 @@ function addNote(note) {
 	);
 }
 
-function addCurrentNote() {
+NotesManager.prototype.addCurrentNote = function() {
 	var current_note = $("#note").val();
 
 	if (current_note) {
@@ -23,7 +29,7 @@ function addCurrentNote() {
 	}
 }
 
-function showHelp() {
+NotesManager.prototype.showHelp = function() {
 	$("#help").show();
 
 	document.addEventListener("click",function __handler__(evt){
@@ -36,35 +42,35 @@ function showHelp() {
 	},true);
 }
 
-function hideHelp() {
+NotesManager.prototype.hideHelp = function() {
 	$("#help").hide();
 }
 
-function handleOpenHelp(evt) {
+NotesManager.prototype.handleOpenHelp = function(evt) {
 	if (!$("#help").is(":visible")) {
 		evt.preventDefault();
 		evt.stopPropagation();
-
+		console.log(this);
 		showHelp();
 	}
 }
 
-function handleAddNote(evt) {
-	addCurrentNote();
+NotesManager.prototype.handleAddNote = function(evt) {
+	this.addCurrentNote();
 }
 
-function handleEnter(evt) {
+NotesManager.prototype.handleEnter = function(evt) {
 	if (evt.which == 13) {
 		addCurrentNote();
 	}
 }
 
-function handleDocumentClick(evt) {
+NotesManager.prototype.handleDocumentClick = function (evt) {
 	$("#notes").removeClass("active");
 	$("#notes").children(".note").removeClass("highlighted");
 }
 
-function handleNoteClick(evt) {
+NotesManager.prototype.handleNoteClick = function (evt) {
 	evt.preventDefault();
 	evt.stopPropagation();
 
@@ -73,7 +79,7 @@ function handleNoteClick(evt) {
 	$(evt.target).addClass("highlighted");
 }
 
-function init() {
+NotesManager.prototype.init = function() {
 	// build the initial list from the existing `notes` data
 	var html = "";
 	for (i=0; i<notes.length; i++) {
@@ -82,19 +88,19 @@ function init() {
 	$("#notes").html(html);
 
 	// listen to "help" button
-	$("#open_help").bind("click",handleOpenHelp);
+	$("#open_help").bind("click",myNotes.handleOpenHelp);
 
 	// listen to "add" button
-	$("#add_note").bind("click",handleAddNote);
+	$("#add_note").bind("click",myNotes.handleAddNote);
 
 	// listen for <enter> in text box
-	$("#new_note").bind("keypress",handleEnter);
+	$("#new_note").bind("keypress",myNotes.handleEnter);
 
 	// listen for clicks outside the notes box
-	$(document).bind("click",handleDocumentClick);
+	$(document).bind("click",myNotes.handleDocumentClick);
 
 	// listen for clicks on note elements
-	$("#notes").on("click",".note",handleNoteClick);
+	$("#notes").on("click",".note",myNotes.handleNoteClick);
 }
 
-$(document).ready(init);
+$(document).ready(NotesManager.init);
